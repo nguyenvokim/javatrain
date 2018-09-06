@@ -4,8 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,11 +18,19 @@ public class ChapThree {
         System.out.println("EXERCISES 1,2");
         System.out.println("Average:" + Employee.average(employees));
         System.out.println("Largest:" + ((Employee) Employee.largest(employees)).getName());
+
+        System.out.println("EXERCISES 4");
+        (IntSequence.of(1,2,3,4)).printMe();
+
+        System.out.println("EXERCISES 5");
+        IntSequence.constant(5, value -> System.out.println(value + " " + value + " " + value + "..."));
+
         System.out.println("EXERCISES 8");
-        Greeter greeter1 = new Greeter(2, "Nguyen");
-        Greeter greeter2 = new Greeter(3, "Dung");
+        Greeter greeter1 = new Greeter(1, "Nguyen");
+        Greeter greeter2 = new Greeter(2, "Dung");
         (new Thread(greeter1)).start();
         (new Thread(greeter2)).start();
+
         System.out.println("EXERCISES 9");
         Greeter.runTogether(greeter1, greeter2);
         Greeter.runInOrder(greeter1, greeter2);
@@ -34,7 +41,42 @@ public class ChapThree {
         for (File direc: direcs) {
             System.out.println(direc);
         }
+
+        System.out.println("EXERCISES 11");
+        String fileterName = "Applications";
+        String[] filesName = files.list((dir, name) -> name.equals(fileterName));
+        System.out.println(Arrays.toString(filesName));
+
+        System.out.println("EXERCISES 12");
+        List<File> sortedFiles = Arrays.stream((new File("/Users/nguyenvk/Desktop")).listFiles())
+                .sorted(Comparator.comparing(File::isDirectory).thenComparing(file -> file.getName().length()))
+                .collect(Collectors.toList()
+                );
+        System.out.println(Arrays.toString(sortedFiles.toArray()));
+
+        System.out.println("EXERCISES 13");
+        Runnable[] runnables = {greeter1, greeter2};
+        runableAll(runnables).run();
+
+        System.out.println("EXERCISES 14");
+        Arrays.stream(employees)
+                .sorted(Comparator.comparing(Employee::getMeasure).thenComparing(Employee::getName).reversed())
+                .collect(Collectors.toList());
     }
+
+    /**
+     * EXERCISES 13
+     * @param runnables Runnable Object
+     * @return
+     */
+    public Runnable runableAll(Runnable[] runnables) {
+        return () -> {
+            for (Runnable runable: runnables) {
+                runable.run();
+            }
+        };
+    }
+
     public interface Measurable {
         public double getMeasure();
     }
@@ -91,5 +133,22 @@ public class ChapThree {
                 task.run();
             }
         }
+    }
+    public interface IntSequence {
+        public void printMe();
+        public static IntSequence of(int... values) {
+            return new IntSequence() {
+                public void printMe() {
+                    List<Integer> arrayList = Arrays.stream(values).boxed().collect(Collectors.toList());
+                    System.out.println(arrayList.toString());
+                }
+            };
+        }
+        public static void constant(int value, InfinityPrint print) {
+            print.infinityPrint(value);
+        }
+    }
+    public interface InfinityPrint {
+        public void infinityPrint(int value);
     }
 }

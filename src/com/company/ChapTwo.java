@@ -48,6 +48,14 @@ public class ChapTwo {
         public void setY(Float y) {
             this.y = y;
         }
+
+        @Override
+        public String toString() {
+            return "PointImmu{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}' + super.hashCode();
+        }
     }
     public static class PointMutator {
         private Float x;
@@ -81,6 +89,14 @@ public class ChapTwo {
 
         public void setY(Float y) {
             this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "PointMutator{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}' + super.hashCode();
         }
     }
     public static class Car {

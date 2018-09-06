@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         //ChapTwo chapTwo = new ChapTwo();
-        //ChapThree chapThree = new ChapThree();
-        ChapSiz chapSiz = new ChapSiz();
+        ChapThree chapThree = new ChapThree();
+        //ChapSiz chapSiz = new ChapSiz();
     }
 }
