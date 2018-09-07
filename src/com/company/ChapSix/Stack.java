@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Stack<E> {
     protected ArrayList<E> arrayList;
-    public Stack() {
-        arrayList = new ArrayList<>();
+    public Stack(ArrayList<E> arrayList) {
+        this.arrayList = arrayList;
     }
     public void push(E item) {
         arrayList.add(item);

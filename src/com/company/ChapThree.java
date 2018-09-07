@@ -43,13 +43,13 @@ public class ChapThree {
         }
 
         System.out.println("EXERCISES 11");
-        String fileterName = "Applications";
-        String[] filesName = files.list((dir, name) -> name.equals(fileterName));
+        String fileterName = "ns";
+        String[] filesName = files.list((dir, name) -> name.endsWith(fileterName));
         System.out.println(Arrays.toString(filesName));
 
         System.out.println("EXERCISES 12");
         List<File> sortedFiles = Arrays.stream((new File("/Users/nguyenvk/Desktop")).listFiles())
-                .sorted(Comparator.comparing(File::isDirectory).thenComparing(file -> file.getName().length()))
+                .sorted(Comparator.comparing(File::isDirectory).reversed().thenComparing(file -> file.getName().length()))
                 .collect(Collectors.toList()
                 );
         System.out.println(Arrays.toString(sortedFiles.toArray()));
@@ -101,10 +101,12 @@ public class ChapThree {
         }
 
         public static double average(Measurable[] measurables) {
-            return Stream.of(measurables).collect(Collectors.averagingDouble(Measurable::getMeasure));
+            return Stream.of(measurables)
+                    .collect(Collectors.averagingDouble(Measurable::getMeasure));
         }
         public static Measurable largest(Measurable[] measurables) {
-            Optional<Measurable> measurable = Stream.of(measurables).max(Comparator.comparing(Measurable::getMeasure));
+            Optional<Measurable> measurable = Stream.of(measurables)
+                    .max(Comparator.comparing(Measurable::getMeasure));
             return measurable.orElse(null);
         }
     }
@@ -122,6 +124,8 @@ public class ChapThree {
                 System.out.println("Hello, " + this.target);
             }
         }
+
+
         public static void runTogether(Runnable... tasks) {
             for (Runnable task: tasks) {
                 (new Thread(task)).start();
