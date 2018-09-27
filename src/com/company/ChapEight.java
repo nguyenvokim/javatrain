@@ -9,13 +9,18 @@ public class ChapEight {
     public ChapEight() {
         ArrayList<String> strings = new ArrayList<>(Arrays.asList("string1", "string12", "string131", "string131sss2315", "string15"));
         ArrayList<String> strings2 = new ArrayList<>(Arrays.asList("xilo1", "xilowawd1", "xilo1dasd", "xilo134234", "xilodasdad1"));
+
         OptionalDouble avg = strings.stream()
                 .flatMapToInt((string) -> IntStream.of(string.length()))
                 .average();
         System.out.println("EX9: Avg string length: " + avg.orElse(0));
+
+        Optional<String> maxString = strings.stream()
+                .max(Comparator.comparing(String::length));
         Optional<String> max10 = strings.stream()
-                .filter(s -> s.length() > 8)
+                .filter(s -> s.length() > maxString.orElse("").length())
                 .reduce((s, s2) -> s + ", " + s2);
+
         System.out.println("EX10:" + max10.orElse(""));
 
         //EX 13
