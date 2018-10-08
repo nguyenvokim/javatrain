@@ -36,7 +36,7 @@ public class ChapTen {
                 return nextVal;
             }
         });
-        System.out.println("EX 7: " + result);
+        System.out.println("EX 7: " + result.getKey());
         //END ex 7
         //Start EX 8
         long startTime = System.currentTimeMillis();
@@ -81,19 +81,24 @@ public class ChapTen {
                 return v1;
             }
         }, 0);
-        (new Random().longs(100, -100, 100)).forEach(l -> {
+        (new Random().longs(10, -100, 100))
+                .parallel()
+                .forEach(l -> {
+                    System.out.print(l + " ");
             longAccumulatorMin.accumulate(l);
             longAccumulatorMax.accumulate(l);
         });
         System.out.println("EX9: Max is " + longAccumulatorMax.get() + ", Min is " + longAccumulatorMin.get());
         //End Ex 9
         //Start EX 19
+        System.out.println("Ex 19:");
         Stack stack = new Stack();
+        AtomicLong atomicLong1 = new AtomicLong();
+        atomicLong1.incrementAndGet();
         ExecutorService executor = Executors.newCachedThreadPool();
         for (int i = 1; i <= 100; i++) {
-            count++;
             Runnable task = () -> {
-                stack.push(count);
+                stack.push(atomicLong1.incrementAndGet());
             };
             executor.execute(task);
         }
@@ -106,14 +111,14 @@ public class ChapTen {
         class Node { Object value; Node next; };
         private Node top;
 
-        public void push(Object newValue) {
+        public synchronized void push(Object newValue) {
             Node n = new Node();
             n.value = newValue;
             n.next = top;
             top = n;
         }
 
-        public Object pop() {
+        public synchronized Object pop() {
             if (top == null) return null;
             Node n = top;
             top = n.next;

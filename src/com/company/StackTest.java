@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 //Start EX 21, 22
 public class StackTest {
-    private Object myLock;
+    private Object myLock = "LOCK";
     public static void main(String[] args) throws InterruptedException {
         StackTest stackTest = new StackTest();
         (new Thread(() -> {
@@ -43,7 +43,6 @@ public class StackTest {
     }
     public void push2(Object newValue) {
         synchronized (new ReentrantLock()) {
-            System.out.println("DMDMDM");
             myLock = newValue;
         }
     }
